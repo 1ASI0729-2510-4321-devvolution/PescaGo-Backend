@@ -13,11 +13,12 @@ public record RequestResource(
     String packageDescription,
     Integer quantity,
     Double weightTotal,
-    Dimensions dimensions,
     String pickupLocation,
     String deliveryLocation,
     LocalDateTime pickupDateTime,
     Double price,
-    String status
+    String status,
+
+    Dimensions dimensions
 ) {
 }

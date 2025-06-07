@@ -12,12 +12,13 @@ public record CreateRequestResource(
         String packageDescription,
         Integer quantity,
         Double weightTotal,
-        Dimensions dimensions,
         String pickupLocation,
         String deliveryLocation,
         LocalDateTime pickupDateTime,
         Double price,
-        String status
+        String status,
+
+        Dimensions dimensions
 ) {
     public CreateRequestResource {
         if (entrepreneurId == null || entrepreneurId <= 0) {
@@ -41,9 +42,6 @@ public record CreateRequestResource(
         if (weightTotal == null || weightTotal <= 0) {
             throw new IllegalArgumentException("The total weight must be a positive number");
         }
-        if (dimensions == null) {
-            throw new IllegalArgumentException("Dimensions cannot be null");
-        }
         if (pickupLocation == null || pickupLocation.isBlank()) {
             throw new IllegalArgumentException("The pickup location cannot be empty");
         }
@@ -58,6 +56,10 @@ public record CreateRequestResource(
         }
         if (status == null || status.isBlank()) {
             throw new IllegalArgumentException("The status cannot be empty");
+        }
+
+        if (dimensions == null) {
+            throw new IllegalArgumentException("Dimensions cannot be null");
         }
     }
 }

@@ -13,12 +13,12 @@ public class CreateRequestCommandFromResourceAssembler {
             resource.packageDescription(),
             resource.quantity(),
             resource.weightTotal(),
-            resource.dimensions(),
             resource.pickupLocation(),
             resource.deliveryLocation(),
             resource.pickupDateTime(),
             resource.price(),
-            resource.status()
+            resource.status(),
+            resource.dimensions()
         );
     }
 }

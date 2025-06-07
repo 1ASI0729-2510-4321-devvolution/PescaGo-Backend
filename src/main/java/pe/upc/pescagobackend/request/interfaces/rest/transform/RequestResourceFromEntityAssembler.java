@@ -13,12 +13,12 @@ public class RequestResourceFromEntityAssembler {
             entity.getPackageDescription(),
             entity.getQuantity(),
             entity.getWeightTotal(),
-            entity.getDimensions(),
             entity.getPickupLocation(),
             entity.getDeliveryLocation(),
             entity.getPickupDateTime(),
             entity.getPrice(),
-            entity.getStatus()
+            entity.getStatus(),
+            entity.getDimensions()
         );
     }
 }

@@ -2,22 +2,17 @@ package pe.upc.pescagobackend.request.domain.model.aggregates;
 
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import pe.upc.pescagobackend.request.domain.model.commands.CreateRequestCommand;
-import pe.upc.pescagobackend.shared.domain.model.entities.AuditableModel;
+import pe.upc.pescagobackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
-public class Request extends AuditableModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Request  extends AuditableAbstractAggregateRoot<Request> {
 
     @Setter
     private Long entrepreneurId;
@@ -34,8 +29,6 @@ public class Request extends AuditableModel {
     @Setter
     private Double weightTotal;
     @Setter
-    private Dimensions dimensions;
-    @Setter
     private String pickupLocation;
     @Setter
     private String deliveryLocation;
@@ -46,6 +39,9 @@ public class Request extends AuditableModel {
     @Setter
     private String status;
 
+    @Setter
+    private Dimensions dimensions;
+
     public Request() {
         this.entrepreneurId = 0L;
         this.entrepreneurName = "";
@@ -54,16 +50,16 @@ public class Request extends AuditableModel {
         this.packageDescription = "";
         this.quantity = 0;
         this.weightTotal = 0.0;
-        this.dimensions = new Dimensions();
         this.pickupLocation = "";
         this.deliveryLocation = "";
         this.pickupDateTime = LocalDateTime.now();
         this.price = 0.0;
         this.status = "PENDING";
+
+        this.dimensions = new Dimensions();
     }
 
     public Request(CreateRequestCommand command){
-        super();
         this.entrepreneurId = command.entrepreneurId();
         this.entrepreneurName = command.entrepreneurName();
         this.carrierId = command.carrierId();
@@ -71,12 +67,13 @@ public class Request extends AuditableModel {
         this.packageDescription = command.packageDescription();
         this.quantity = command.quantity();
         this.weightTotal = command.weightTotal();
-        this.dimensions = command.dimensions();
         this.pickupLocation = command.pickupLocation();
         this.deliveryLocation = command.deliveryLocation();
         this.pickupDateTime = command.pickupDateTime();
         this.price = command.price();
         this.status = command.status();
+
+        this.dimensions = command.dimensions();
     }
 
 }
