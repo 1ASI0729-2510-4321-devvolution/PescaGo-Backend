@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import pe.upc.pescagobackend.request.domain.model.commands.CreateRequestCommand;
+import pe.upc.pescagobackend.request.domain.model.commands.UpdateRequestCommand;
 import pe.upc.pescagobackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 
@@ -60,6 +61,23 @@ public class Request  extends AuditableAbstractAggregateRoot<Request> {
     }
 
     public Request(CreateRequestCommand command){
+        this.entrepreneurId = command.entrepreneurId();
+        this.entrepreneurName = command.entrepreneurName();
+        this.carrierId = command.carrierId();
+        this.carrierName = command.carrierName();
+        this.packageDescription = command.packageDescription();
+        this.quantity = command.quantity();
+        this.weightTotal = command.weightTotal();
+        this.pickupLocation = command.pickupLocation();
+        this.deliveryLocation = command.deliveryLocation();
+        this.pickupDateTime = command.pickupDateTime();
+        this.price = command.price();
+        this.status = command.status();
+
+        this.dimensions = command.dimensions();
+    }
+
+    public void UpdateRequest(UpdateRequestCommand command) {
         this.entrepreneurId = command.entrepreneurId();
         this.entrepreneurName = command.entrepreneurName();
         this.carrierId = command.carrierId();

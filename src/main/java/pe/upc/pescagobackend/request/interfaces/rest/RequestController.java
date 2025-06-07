@@ -12,8 +12,10 @@ import pe.upc.pescagobackend.request.domain.services.RequestCommandService;
 import pe.upc.pescagobackend.request.domain.services.RequestQueryService;
 import pe.upc.pescagobackend.request.interfaces.rest.resources.CreateRequestResource;
 import pe.upc.pescagobackend.request.interfaces.rest.resources.RequestResource;
+import pe.upc.pescagobackend.request.interfaces.rest.resources.UpdateRequestResource;
 import pe.upc.pescagobackend.request.interfaces.rest.transform.CreateRequestCommandFromResourceAssembler;
 import pe.upc.pescagobackend.request.interfaces.rest.transform.RequestResourceFromEntityAssembler;
+import pe.upc.pescagobackend.request.interfaces.rest.transform.UpdateRequestCommandFromResourceAssembler;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -66,5 +68,18 @@ public class RequestController {
         var deleteRequestCommand = new DeleteRequestCommand(id);
         requestCommandService.handle(deleteRequestCommand);
         return ResponseEntity.ok("Request deleted successfully");
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update request by id", description = "Update request by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Request updated"),
+            @ApiResponse(responseCode = "404", description = "Request not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    public ResponseEntity<?> updateRequestById(@PathVariable Long id, @RequestBody UpdateRequestResource resource) {
+        var updateRequestCommand = UpdateRequestCommandFromResourceAssembler.toCommandFromResource(id, resource);
+        requestCommandService.handle(updateRequestCommand);
+        return ResponseEntity.ok().build();
     }
 }
