@@ -12,9 +12,9 @@ public record CreateHiredServiceResource(
         String carrierName,
         String packageDescription,
         LocalDateTime pickupDateTime,
-        CarrierData carrierData,
         String paymentMethod,
-        String status
+        String status,
+        CarrierData carrierData
 ) {
     public CreateHiredServiceResource {
         if (requestId == null || requestId <= 0) {
@@ -38,14 +38,14 @@ public record CreateHiredServiceResource(
         if (pickupDateTime == null) {
             throw new IllegalArgumentException("The pickup date and time cannot be empty");
         }
-        if (carrierData == null) {
-            throw new IllegalArgumentException("Carrier data cannot be null");
-        }
         if (paymentMethod == null || paymentMethod.isBlank()) {
             throw new IllegalArgumentException("The payment method cannot be empty");
         }
         if (status == null || status.isBlank()) {
             throw new IllegalArgumentException("The status cannot be empty");
+        }
+        if (carrierData == null) {
+            throw new IllegalArgumentException("Carrier data cannot be null");
         }
     }
 }

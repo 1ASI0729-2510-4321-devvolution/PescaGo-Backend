@@ -1,10 +1,10 @@
-package pe.upc.pescagobackend.hiredService.domain.model.commands;
+package pe.upc.pescagobackend.hiredService.interfaces.rest.resources;
 
 import pe.upc.pescagobackend.hiredService.domain.model.aggregates.CarrierData;
 
 import java.time.LocalDateTime;
 
-public record CreateHiredServiceCommand(
+public record UpdateHiredServiceResource(
         Long requestId,
         Long entrepreneurId,
         String entrepreneurName,
@@ -16,7 +16,7 @@ public record CreateHiredServiceCommand(
         String status,
         CarrierData carrierData
 ) {
-    public CreateHiredServiceCommand {
+    public UpdateHiredServiceResource {
         if (requestId == null || requestId <= 0) {
             throw new IllegalArgumentException("The request ID must be a positive number");
         }
@@ -49,6 +49,3 @@ public record CreateHiredServiceCommand(
         }
     }
 }
-
-
-

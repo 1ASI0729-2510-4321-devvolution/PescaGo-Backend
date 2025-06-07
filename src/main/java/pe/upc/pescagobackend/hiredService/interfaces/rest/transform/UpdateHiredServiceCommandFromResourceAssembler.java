@@ -1,10 +1,10 @@
 package pe.upc.pescagobackend.hiredService.interfaces.rest.transform;
 
 import pe.upc.pescagobackend.hiredService.domain.model.commands.UpdateHiredServiceCommand;
-import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.HiredServiceResource;
+import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.UpdateHiredServiceResource;
 
 public class UpdateHiredServiceCommandFromResourceAssembler {
-    public static UpdateHiredServiceCommand toCommandFromResource(Long id, HiredServiceResource resource) {
+    public static UpdateHiredServiceCommand toCommandFromResource(Long id, UpdateHiredServiceResource resource) {
         return new UpdateHiredServiceCommand(
                 id,
                 resource.requestId(),
@@ -14,9 +14,9 @@ public class UpdateHiredServiceCommandFromResourceAssembler {
                 resource.carrierName(),
                 resource.packageDescription(),
                 resource.pickupDateTime(),
-                resource.carrierData(),
                 resource.paymentMethod(),
-                resource.status()
+                resource.status(),
+                resource.carrierData()
         );
     }
 }

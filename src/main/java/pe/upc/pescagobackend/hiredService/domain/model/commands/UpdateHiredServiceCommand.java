@@ -1,5 +1,6 @@
 package pe.upc.pescagobackend.hiredService.domain.model.commands;
 
+
 import pe.upc.pescagobackend.hiredService.domain.model.aggregates.CarrierData;
 
 import java.time.LocalDateTime;
@@ -13,9 +14,9 @@ public record UpdateHiredServiceCommand(
         String carrierName,
         String packageDescription,
         LocalDateTime pickupDateTime,
-        CarrierData carrierData,
         String paymentMethod,
-        String status
+        String status,
+        CarrierData carrierData
 ) {
     public UpdateHiredServiceCommand {
         if (id == null || id <= 0) {
@@ -42,14 +43,14 @@ public record UpdateHiredServiceCommand(
         if (pickupDateTime == null) {
             throw new IllegalArgumentException("The pickup date and time cannot be empty");
         }
-        if (carrierData == null) {
-            throw new IllegalArgumentException("Carrier data cannot be null");
-        }
         if (paymentMethod == null || paymentMethod.isBlank()) {
             throw new IllegalArgumentException("The payment method cannot be empty");
         }
         if (status == null || status.isBlank()) {
             throw new IllegalArgumentException("The status cannot be empty");
+        }
+        if (carrierData == null) {
+            throw new IllegalArgumentException("Carrier data cannot be null");
         }
     }
 }

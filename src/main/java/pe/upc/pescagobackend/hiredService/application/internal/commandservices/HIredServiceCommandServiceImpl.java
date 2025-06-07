@@ -9,6 +9,8 @@ import pe.upc.pescagobackend.hiredService.domain.model.commands.UpdateHiredServi
 import pe.upc.pescagobackend.hiredService.domain.services.HiredServiceCommandService;
 import pe.upc.pescagobackend.hiredService.infrastructure.persistence.jpa.repositories.HiredServiceRepository;
 
+import java.util.Optional;
+
 @Service
 public class HIredServiceCommandServiceImpl implements HiredServiceCommandService {
 
@@ -41,16 +43,15 @@ public class HIredServiceCommandServiceImpl implements HiredServiceCommandServic
     }
 
     @Override
-    public void handle(UpdateHiredServiceCommand command) {
-        if (!hiredServiceRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Hired service with id %s not found".formatted(command.id()));
+    public Optional<HiredService> handle (UpdateHiredServiceCommand command) {
+        var hiredServiceOptional = hiredServiceRepository.findById(command.id());
+        if (hiredServiceOptional.isEmpty()) {
+            return Optional.empty();
         }
-        var hiredService = new HiredService(command);
-        try {
-            hiredServiceRepository.save(hiredService);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error updating hired service: %s".formatted(e.getMessage()));
-        }
+        var hiredService = hiredServiceOptional.get();
+        hiredService.UpdateHiredService(command);
+        hiredServiceRepository.save(hiredService);
+        return Optional.of(hiredService);
     }
 
 }

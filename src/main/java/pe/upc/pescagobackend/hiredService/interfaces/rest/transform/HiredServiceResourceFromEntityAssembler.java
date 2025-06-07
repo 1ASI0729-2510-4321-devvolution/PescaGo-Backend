@@ -14,9 +14,9 @@ public class HiredServiceResourceFromEntityAssembler {
             entity.getCarrierName(),
             entity.getPackageDescription(),
             entity.getPickupDateTime(),
-            entity.getCarrierData(),
             entity.getPaymentMethod(),
-            entity.getStatus()
+            entity.getStatus(),
+            entity.getCarrierData()
         );
     }
 }

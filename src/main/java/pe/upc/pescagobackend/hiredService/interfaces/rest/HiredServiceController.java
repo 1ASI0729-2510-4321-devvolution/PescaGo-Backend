@@ -10,7 +10,9 @@ import pe.upc.pescagobackend.hiredService.domain.model.commands.DeleteHiredServi
 import pe.upc.pescagobackend.hiredService.domain.model.queries.GetHiredServiceByIdQuery;
 import pe.upc.pescagobackend.hiredService.domain.services.HiredServiceCommandService;
 import pe.upc.pescagobackend.hiredService.domain.services.HiredServiceQueryService;
+import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.CreateHiredServiceResource;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.HiredServiceResource;
+import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.UpdateHiredServiceResource;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.transform.CreateHiredServiceCommandFromResourceAssembler;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.transform.HiredServiceResourceFromEntityAssembler;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.transform.UpdateHiredServiceCommandFromResourceAssembler;
@@ -35,7 +37,7 @@ public class HiredServiceController {
             @ApiResponse(responseCode = "201", description = "Hired Service created"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public void createHiredService(@RequestBody HiredServiceResource resource) {
+    public void createHiredService(@RequestBody CreateHiredServiceResource resource) {
         var createHiredServiceCommand = CreateHiredServiceCommandFromResourceAssembler.toCommandFromResource(resource);
         hiredServiceCommandService.handle(createHiredServiceCommand);
     }
@@ -74,7 +76,7 @@ public class HiredServiceController {
             @ApiResponse(responseCode = "404", description = "Hired Service not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
-    public ResponseEntity<Void> updateHiredServiceById(@PathVariable Long id, @RequestBody HiredServiceResource resource) {
+    public ResponseEntity<Void> updateHiredServiceById(@PathVariable Long id, @RequestBody UpdateHiredServiceResource resource) {
         var updateHiredServiceCommand = UpdateHiredServiceCommandFromResourceAssembler.toCommandFromResource(id, resource);
         hiredServiceCommandService.handle(updateHiredServiceCommand);
         return ResponseEntity.ok().build();

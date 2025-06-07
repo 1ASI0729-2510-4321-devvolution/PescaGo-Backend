@@ -13,8 +13,8 @@ public record HiredServiceResource(
     String carrierName,
     String packageDescription,
     LocalDateTime pickupDateTime,
-    CarrierData carrierData,
     String paymentMethod,
-    String status
+    String status,
+    CarrierData carrierData
 ) {
 }
