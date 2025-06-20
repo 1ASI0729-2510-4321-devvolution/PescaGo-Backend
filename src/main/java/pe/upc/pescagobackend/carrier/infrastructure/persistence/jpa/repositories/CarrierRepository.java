@@ -1,0 +1,10 @@
+package pe.upc.pescagobackend.carrier.infrastructure.persistence.jpa.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import pe.upc.pescagobackend.carrier.domain.model.aggregates.Carrier;
+
+import java.util.Optional;
+
+public interface CarrierRepository extends JpaRepository<Carrier, Long> {
+    Optional<Carrier>findById(Long id);
+}
