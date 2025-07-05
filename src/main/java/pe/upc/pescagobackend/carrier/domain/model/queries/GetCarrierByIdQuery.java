@@ -1,10 +1,10 @@
 package pe.upc.pescagobackend.carrier.domain.model.queries;
 
 public record GetCarrierByIdQuery(
-    Long carrierId
+    Long userId
 ) {
     public GetCarrierByIdQuery {
-        if (carrierId == null || carrierId <= 0) {
+        if (userId == null || userId <= 0) {
             throw new IllegalArgumentException("Carrier ID must be a positive number.");
         }
     }

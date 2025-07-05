@@ -6,5 +6,5 @@ import pe.upc.pescagobackend.carrier.domain.model.aggregates.Carrier;
 import java.util.Optional;
 
 public interface CarrierRepository extends JpaRepository<Carrier, Long> {
-    Optional<Carrier>findById(Long id);
+    Optional<Carrier>findByUserId(Long id);
 }

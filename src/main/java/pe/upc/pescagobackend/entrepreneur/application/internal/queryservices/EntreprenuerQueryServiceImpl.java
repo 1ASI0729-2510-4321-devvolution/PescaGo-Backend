@@ -18,7 +18,7 @@ public class EntreprenuerQueryServiceImpl implements EntreprenuerQueryService {
 
     @Override
     public Optional<Entreprenuer> handle(GetEntreprenuerByIdQuery query){
-        return entreprenuerRepository.findById(query.entreprenuerId());
+        return entreprenuerRepository.findByUserId(query.userId());
     }
 
 

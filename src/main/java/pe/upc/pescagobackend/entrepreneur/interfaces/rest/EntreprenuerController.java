@@ -41,17 +41,17 @@ public class EntreprenuerController {
         }
     }
 
-    @DeleteMapping("{entreprenuerId}")
+    @DeleteMapping("{userId}")
     @Operation(summary = "Delete a Entreprenuer", description = "Delete a Entreprenuer by id")
-    public void deleteUser(@PathVariable Long entreprenuerId) {
-        var deleteEntreprenuerCommand = new DeleteEntreprenuerCommand(entreprenuerId);
+    public void deleteUser(@PathVariable Long userId) {
+        var deleteEntreprenuerCommand = new DeleteEntreprenuerCommand(userId);
         entreprenuerCommandService.handle(deleteEntreprenuerCommand);
     }
 
-    @GetMapping("{entreprenuerId}")
+    @GetMapping("{userId}")
     @Operation(summary = "Get Entreprenuer by id", description = "Get Entreprenuer by id")
-    public ResponseEntity<EntreprenuerResource> getUser(@PathVariable Long entreprenuerId) {
-        var query = new GetEntreprenuerByIdQuery(entreprenuerId);
+    public ResponseEntity<EntreprenuerResource> getUser(@PathVariable Long userId) {
+        var query = new GetEntreprenuerByIdQuery(userId);
         var entreprenuerOptional = entreprenuerQueryService.handle(query);
         if (entreprenuerOptional.isEmpty()) {
             return ResponseEntity.notFound().build();

@@ -18,7 +18,7 @@ public class CarrierQueryServiceImpl implements CarrierQueryService {
 
     @Override
     public Optional<Carrier> handle(GetCarrierByIdQuery query){
-        return carrierRepository.findById(query.carrierId());
+        return carrierRepository.findById(query.userId());
     }
 
 

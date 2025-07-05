@@ -50,17 +50,17 @@ public class CarrierController {
         }
     }
 
-    @DeleteMapping("{carrierId}")
+    @DeleteMapping("{userId}")
     @Operation(summary = "Delete a Carrier", description = "Delete a Carrier by id")
-    public void deleteUser(@PathVariable Long carrierId) {
-        var deleteCarrierCommand = new DeleteCarrierCommand(carrierId);
+    public void deleteUser(@PathVariable Long userId) {
+        var deleteCarrierCommand = new DeleteCarrierCommand(userId);
         carrierCommandService.handle(deleteCarrierCommand);
     }
 
-    @GetMapping("{carrierId}")
+    @GetMapping("{userId}")
     @Operation(summary = "Get Carrier by id", description = "Get Carrier by id")
-    public ResponseEntity<CarrierResource> getUser(@PathVariable Long carrierId) {
-        var query = new GetCarrierByIdQuery(carrierId);
+    public ResponseEntity<CarrierResource> getUser(@PathVariable Long userId) {
+        var query = new GetCarrierByIdQuery(userId);
         var carrierOptional = carrierQueryService.handle(query);
         if (carrierOptional.isEmpty()) {
             return ResponseEntity.notFound().build();

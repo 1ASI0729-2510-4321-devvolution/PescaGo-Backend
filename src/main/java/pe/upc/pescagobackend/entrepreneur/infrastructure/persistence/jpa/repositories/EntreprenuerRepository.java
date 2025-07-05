@@ -6,5 +6,5 @@ import pe.upc.pescagobackend.entrepreneur.domain.model.aggregates.Entreprenuer;
 import java.util.Optional;
 
 public interface EntreprenuerRepository extends JpaRepository<Entreprenuer, Long> {
-    Optional<Entreprenuer>findById(Long id);
+    Optional<Entreprenuer>findByUserId(Long id);
 }

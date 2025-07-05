@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.upc.pescagobackend.iam.domain.model.aggregates.User;
 import pe.upc.pescagobackend.iam.domain.model.commands.DeleteUserCommand;
+import pe.upc.pescagobackend.iam.domain.model.queries.GetUserByAuthenticationQuery;
 import pe.upc.pescagobackend.iam.domain.model.queries.GetUserByIdQuery;
 import pe.upc.pescagobackend.iam.domain.services.UserCommandService;
 import pe.upc.pescagobackend.iam.domain.services.UserQueryService;
@@ -53,6 +54,20 @@ public class UserController {
     public ResponseEntity<UserResource> getUser(@PathVariable Long userId) {
         var query = new GetUserByIdQuery(userId);
         var userOptional = userQueryService.handle(query);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(userOptional.get());
+        return ResponseEntity.ok(userResource);
+    }
+
+    @GetMapping("/authentication")
+    @Operation(summary = "Get User by Authentication", description = "Get User by email and password")
+    public ResponseEntity<UserResource> getUserByAuthentication(
+            @RequestParam String email,
+            @RequestParam String password) {
+        var query = new GetUserByAuthenticationQuery(email, password);
+        var userOptional = userQueryService.getUserByAuthentication(query);
         if (userOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
