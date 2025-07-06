@@ -2,7 +2,7 @@ package pe.upc.pescagobackend.receipt.interfaces.rest.resources;
 
 public record ReceiptResource(
     Long id,
-    Long receiptId,
+    Long requestId,
     String holderName,
     String cardNumber,
     String expiryDate,
@@ -13,8 +13,8 @@ public record ReceiptResource(
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID must be a positive number.");
         }
-        if (receiptId == null || receiptId <= 0) {
-            throw new IllegalArgumentException("Receipt ID must be a positive number.");
+        if (requestId == null || requestId <= 0) {
+            throw new IllegalArgumentException("Request ID must be a positive number.");
         }
         if (holderName == null || holderName.isBlank()) {
             throw new IllegalArgumentException("Holder name cannot be null or blank.");

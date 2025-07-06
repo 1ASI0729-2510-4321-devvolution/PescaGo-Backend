@@ -9,6 +9,7 @@ import pe.upc.pescagobackend.carrier.application.internal.queryservices.CarrierQ
 import pe.upc.pescagobackend.carrier.domain.model.aggregates.Carrier;
 import pe.upc.pescagobackend.carrier.domain.model.commands.DeleteCarrierCommand;
 import pe.upc.pescagobackend.carrier.domain.model.queries.GetCarrierByIdQuery;
+import pe.upc.pescagobackend.carrier.domain.model.queries.GetCarriersQuery;
 import pe.upc.pescagobackend.carrier.interfaces.rest.resources.CarrierResource;
 import pe.upc.pescagobackend.carrier.interfaces.rest.resources.CreateCarrierResource;
 import pe.upc.pescagobackend.carrier.interfaces.rest.transform.CarrierResourceFromEntityAssembler;
@@ -22,6 +23,9 @@ import pe.upc.pescagobackend.iam.interfaces.rest.resources.CreateUserResource;
 import pe.upc.pescagobackend.iam.interfaces.rest.resources.UserResource;
 import pe.upc.pescagobackend.iam.interfaces.rest.transform.CreateUserCommandFromResourceAssembler;
 import pe.upc.pescagobackend.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -67,6 +71,20 @@ public class CarrierController {
         }
         var carrierResource = CarrierResourceFromEntityAssembler.toResourceFromEntity(carrierOptional.get());
         return ResponseEntity.ok(carrierResource);
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all Carriers", description = "Get all Carriers")
+    public ResponseEntity<List<CarrierResource>> getAllCarriers() {
+        var query = new GetCarriersQuery();
+        var carriersOptional = carrierQueryService.handle(query);
+        if (carriersOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var carrierResources = carriersOptional.get().stream()
+                .map(CarrierResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(carrierResources);
     }
 
 }

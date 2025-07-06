@@ -6,7 +6,7 @@ import pe.upc.pescagobackend.receipt.interfaces.rest.resources.CreateReceiptReso
 public class CreateReceiptCommandFromResourceAssembler {
     public static CreateReceiptCommand toCommandFromResource(CreateReceiptResource resource) {
         return new CreateReceiptCommand(
-                resource.receiptId(),
+                resource.requestId(),
                 resource.holderName(),
                 resource.cardNumber(),
                 resource.expiryDate(),

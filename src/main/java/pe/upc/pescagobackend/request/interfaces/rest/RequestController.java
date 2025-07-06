@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.upc.pescagobackend.request.domain.model.commands.DeleteRequestCommand;
 import pe.upc.pescagobackend.request.domain.model.queries.GetRequestByIdQuery;
+import pe.upc.pescagobackend.request.domain.model.queries.GetRequestsByCarrierIdQuery;
+import pe.upc.pescagobackend.request.domain.model.queries.GetRequestsByEntrepreneurIdQuery;
 import pe.upc.pescagobackend.request.domain.services.RequestCommandService;
 import pe.upc.pescagobackend.request.domain.services.RequestQueryService;
 import pe.upc.pescagobackend.request.interfaces.rest.resources.CreateRequestResource;
@@ -81,5 +83,35 @@ public class RequestController {
         var updateRequestCommand = UpdateRequestCommandFromResourceAssembler.toCommandFromResource(id, resource);
         requestCommandService.handle(updateRequestCommand);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/entrepreneur/{entrepreneurId}")
+    @Operation(summary = "Get requests by entrepreneur id", description = "Get requests by entrepreneur id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Requests found"),
+            @ApiResponse(responseCode = "404", description = "Requests not found")
+    })
+    public ResponseEntity<?> getRequestsByEntrepreneurId(@PathVariable Long entrepreneurId) {
+        var requests = requestQueryService.handle(new GetRequestsByEntrepreneurIdQuery(entrepreneurId));
+        if (requests.isEmpty()) return ResponseEntity.notFound().build();
+        var requestResources = requests.stream()
+                .map(RequestResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(requestResources);
+    }
+
+    @GetMapping("/carrier/{carrierId}")
+    @Operation(summary = "Get requests by carrier id", description = "Get requests by carrier id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Requests found"),
+            @ApiResponse(responseCode = "404", description = "Requests not found")
+    })
+    public ResponseEntity<?> getRequestsByCarrierId(@PathVariable Long carrierId) {
+        var requests = requestQueryService.handle(new GetRequestsByCarrierIdQuery(carrierId));
+        if (requests.isEmpty()) return ResponseEntity.notFound().build();
+        var requestResources = requests.stream()
+                .map(RequestResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(requestResources);
     }
 }
