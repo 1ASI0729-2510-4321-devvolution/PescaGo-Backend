@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.upc.pescagobackend.hiredService.domain.model.commands.DeleteHiredServiceCommand;
 import pe.upc.pescagobackend.hiredService.domain.model.queries.GetHiredServiceByIdQuery;
+import pe.upc.pescagobackend.hiredService.domain.model.queries.GetHiredServicesByCarrierIdQuery;
+import pe.upc.pescagobackend.hiredService.domain.model.queries.GetHiredServicesByEntrepreneurIdQuery;
 import pe.upc.pescagobackend.hiredService.domain.services.HiredServiceCommandService;
 import pe.upc.pescagobackend.hiredService.domain.services.HiredServiceQueryService;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.CreateHiredServiceResource;
@@ -16,6 +18,9 @@ import pe.upc.pescagobackend.hiredService.interfaces.rest.resources.UpdateHiredS
 import pe.upc.pescagobackend.hiredService.interfaces.rest.transform.CreateHiredServiceCommandFromResourceAssembler;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.transform.HiredServiceResourceFromEntityAssembler;
 import pe.upc.pescagobackend.hiredService.interfaces.rest.transform.UpdateHiredServiceCommandFromResourceAssembler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -80,6 +85,38 @@ public class HiredServiceController {
         var updateHiredServiceCommand = UpdateHiredServiceCommandFromResourceAssembler.toCommandFromResource(id, resource);
         hiredServiceCommandService.handle(updateHiredServiceCommand);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/entrepreneur/{entrepreneurId}")
+    @Operation(summary = "Get hired services by entrepreneur ID", description = "Get all hired services for a specific entrepreneur")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hired Services found"),
+            @ApiResponse(responseCode = "404", description = "No Hired Services found for the given entrepreneur ID")
+    })
+    public ResponseEntity<List<HiredServiceResource>> getHiredServicesByEntrepreneurId(@PathVariable Long entrepreneurId) {
+        var query = new GetHiredServicesByEntrepreneurIdQuery(entrepreneurId);
+        var hiredServices = hiredServiceQueryService.handle(query);
+        if (hiredServices.isEmpty()) return ResponseEntity.notFound().build();
+        var resources = hiredServices.stream()
+                .map(HiredServiceResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resources);
+    }
+
+    @GetMapping("/carrier/{carrierId}")
+    @Operation(summary = "Get hired services by carrier ID", description = "Get all hired services for a specific carrier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hired Services found"),
+            @ApiResponse(responseCode = "404", description = "No Hired Services found for the given carrier ID")
+    })
+    public ResponseEntity<List<HiredServiceResource>> getHiredServicesByCarrierId(@PathVariable Long carrierId) {
+        var query = new GetHiredServicesByCarrierIdQuery(carrierId);
+        var hiredServices = hiredServiceQueryService.handle(query);
+        if (hiredServices.isEmpty()) return ResponseEntity.notFound().build();
+        var resources = hiredServices.stream()
+                .map(HiredServiceResourceFromEntityAssembler::toResourceFromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resources);
     }
 
 }
